@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Certainly! Below is a template for a README file for your project. You can customize it further based on your project's specific details, features, and configurations.
 
 ---
@@ -104,3 +105,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Feel free to adjust the content as per your project's specific requirements. After editing, save this as `README.md` in the root of your repository. This file will be displayed on your GitHub repo page, providing clear instructions and insights to anyone interested in your project.
+=======
+# Produting
+Produting is a production management and inventory control tool .
+>>>>>>> 6528cae1734270c1c93f707a33ecdaf9a1cdea06
