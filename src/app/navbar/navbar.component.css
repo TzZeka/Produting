@@ -1,0 +1,86 @@
+.navbar {
+  position: relative; /* За да можем да позиционираме псевдоелемента */
+  overflow: hidden; /* Да скрием ненужното съдържание */
+  padding: 10px 20px; /* Паддинг около навигацията */
+  z-index: 1; /* На преден план */
+}
+
+.navbar::before {
+  content: '';
+  position: absolute; /* Позиционираме зад съдържанието на навигацията */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1; /* Зад основното съдържание */
+  background: linear-gradient(270deg, rgba(255, 0, 150, 0.5), rgba(0, 204, 255, 0.5), rgba(255, 255, 0, 0.5), rgba(0, 255, 85, 0.5));
+  background-size: 400% 400%; /* Увеличаваме размера за анимацията */
+  animation: gradientAnimation 15s ease infinite; /* Анимация за фона */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 50px; /* Променете на желаната височина */
+  width: auto; /* Запази пропорциите на изображението */
+  transition: transform 0.3s; /* Добавете плавен преход за анимация */
+}
+
+.logo a:hover img {
+  transform: scale(1.1); /* Леко увеличаване на логото при ховър */
+}
+.nav-links {
+  list-style: none;
+  display: flex; /* Да се показва менюто хоризонтално */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-left: 20px; /* Отстояние между елементите */
+}
+
+.nav-item a,
+.logout-button {
+  color: rgb(14, 14, 14); /* Цвет на линковете */
+  text-decoration: none; /* Без подчертаване */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 8px; /* Полета около линковете */
+  transition: background-color 0.3s; /* Плавен преход на фона */
+}
+
+.nav-item a:hover,
+.logout-button:hover {
+  background-color: rgba(255, 255, 255, 0.378); /* Преходен фон при ховър */
+  border-radius: 4px; /* Закръглени ъгли */
+}
+
+/* Стилове за активен елемент */
+.active {
+  background-color: rgba(255, 255, 255, 0.2); /* Фон за активен линк */
+}
+
+/* Логика за CSS на бутона за лог аут */
+.logout-button {
+  background: none; /* Без фон */
+  border: none; /* Без рамка */
+  cursor: pointer; /* Курсор за ръка */
+  font-family: inherit; /* Възприеме шрифтовете от родителския елемент */
+  padding: 8px; /* Полета около бутона */
+}

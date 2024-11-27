@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <h2>Registration</h2>
+  <form (submit)="onSubmit($event)">
+    <div class="input-box">
+      <input type="text" placeholder="Enter your name" required [(ngModel)]="name" name="name">
+    </div>
+    <div class="input-box">
+      <input type="email" placeholder="Enter your email" required [(ngModel)]="email" name="email">
+    </div>
+    <div class="input-box">
+      <input type="password" placeholder="Create password" required [(ngModel)]="password" name="password">
+    </div>
+    <div class="input-box">
+      <input type="password" placeholder="Confirm password" required [(ngModel)]="confirmPassword" name="confirmPassword">
+    </div>
+    <div class="policy">
+      <input type="checkbox" required>
+      <h3>I accept all terms & condition</h3>
+    </div>
+    <div class="input-box button">
+      <input type="submit" value="Register Now">
+    </div>
+    <div class="text error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="text success" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="text">
+      <h3>Already have an account? <a routerLink="/login">Login now</a></h3>
+    </div>
+  </form>
+</div>

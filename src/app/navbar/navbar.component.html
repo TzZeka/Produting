@@ -1,0 +1,32 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="logo">
+      <a href="/">
+        <img src="/img/logo.jpg" alt="Logo" class="logo-img">
+      </a>
+    </div>
+    
+    <ul class="nav-links" role="navigation">
+      <li class="nav-item">
+        <a routerLink="/" routerLinkActive="active">Home</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/about" routerLinkActive="active">About</a>
+      </li>
+      <ng-container *ngIf="isLoggedIn | async; else loggedOutNav">
+        <li class="nav-item">
+          <a routerLink="/my-products" routerLinkActive="active">My Products</a>
+        </li>
+        <li class="nav-item">
+          <button (click)="logout()" aria-label="Logout" class="logout-button">Logout</button>
+        </li>
+      </ng-container>
+      <ng-template #loggedOutNav>
+        <li class="nav-item">
+          <a routerLink="/login" routerLinkActive="active">Login</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/register" routerLinkActive="active">Register</a>
+        </li>
+      </ng-template>
+    </ul>

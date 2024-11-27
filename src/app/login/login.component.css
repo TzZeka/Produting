@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+  
+  /* Login Form Container */
+  .login-container {
+    max-width: 400px;
+    margin: 80px auto; /* Center the form */
+    padding: 40px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Deeper shadow */
+    background-color: #c2e9f4; /* White background for form */
+  }
+  
+  /* Header */
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px; /* Larger font size */
+    color: #333; /* Dark grey text */
+  }
+  
+  /* Form Group */
+  .form-group {
+    margin-bottom: 20px; /* Increased spacing */
+  }
+  
+  /* Labels */
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600; /* Bold text */
+    color: #555; /* Darker grey for labels */
+  }
+  
+  /* Input Styles */
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 15px; /* Added padding */
+    border: 1px solid #f2f7fd; /* Light border */
+    border-radius: 5px; /* Rounded corners for inputs */
+    font-size: 16px; /* Slightly larger font */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Input Focus State */
+  input:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 5px #1967d480;; /* Light blue glow */
+    outline: none; /* Remove default outline */
+  }
+  
+  /* Button Styles */
+  button {
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff; /* Bootstrap blue */
+    color: #ffffff;
+    border: none;
+    border-radius: 5px; /* Rounded button */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold; /* Bold button text */
+    transition: background-color 0.3s ease, transform 0.2s; /* Smooth transitions */
+  }
+  
+  /* Button Hover State */
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+  }
+  
+  /* Message Styles */
+  .message {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 500; /* Medium weight text */
+  }
+  
+  .message.success {
+    color: #28a745; /* Green for success */
+  }
+  
+  .message.error {
+    color: #dc3545; /* Red for errors */
+  }
+  
+  /* Footer Link */
+  .footer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .footer p {
+    color: #666; /* Grey text for footer links */
+   
+   font-weight: bold
+  }
+  
+  .footer a {
+    color: #007bff; /* Link color */
+    text-decoration: none; /* Remove underline */
+  }
+  
+  .footer a:hover {
+    font-weight: bold;
+    text-decoration: underline; /* Underline on hover */
+  }
