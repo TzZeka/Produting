@@ -3,12 +3,9 @@
 
 
 
-
-Based on the details you provided about your project "Produting," here’s a tailored description for it:
-
 ---
 
-### Project Name: Produting
+### Produting
 
 #### Description:
 Produting is an Angular version 18 web application designed for efficient product management. This tool helps users keep track of their inventory by providing insight into what products they have and their quantities. With valuable features such as the ability to add product prices, mark items as favorites, and maintain a detailed catalog of product information, Produting simplifies the management and organization of products.
@@ -48,7 +45,6 @@ To get started with Produting, follow these steps:
 Contributions are welcome! If you'd like to contribute, please fork the repository and create a pull request.
 
 #### License:
-This project is licensed under the [INSERT LICENSE NAME] License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
 >>>>>>> 6528cae1734270c1c93f707a33ecdaf9a1cdea06
