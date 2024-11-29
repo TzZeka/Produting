@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/app-project",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -11,6 +11,7 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ],
+    "404": "404.html"
   }
 }

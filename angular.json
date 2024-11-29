@@ -21,13 +21,17 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public/assets"
-              }
-
-            ],
-
+            {
+            "glob": "**/*",
+            "input": "public/assets",
+            "output": "/assets" 
+            },
+            { 
+            "glob": "**/*", 
+            "input": "src", 
+            "output": "/", 
+            "ignore": ["**/.*", "**/node_modules/**", "404.html"] 
+            }],
             "styles": [
               "src/styles.css"
             ],
@@ -85,7 +89,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public/assets"
+                "input": "public"
               }
             ],
             "styles": [

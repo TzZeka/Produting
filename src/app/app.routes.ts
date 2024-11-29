@@ -12,8 +12,9 @@ import { CreateComponent } from './models/create/create.component';
 import { CatalogComponent } from './models/catalog/catalog.component';
 import { FavoritesComponent } from './models/favorites/favorites.component';
 
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 export const routes: Routes = [
-    {path: 'home', component: HomeComponent},
+    {path: '', component: HomeComponent },
     { path: 'about', component: AboutComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
@@ -24,6 +25,7 @@ export const routes: Routes = [
     { path: 'create', component: CreateComponent },
     { path: 'catalog', component: CatalogComponent },
     { path: 'favorites', component: FavoritesComponent },
+    { path: '**', component: PageNotFoundComponent },
     
 ];
 
