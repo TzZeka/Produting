@@ -5,11 +5,10 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'] 
+    selector: 'app-navbar',
+    imports: [CommonModule],
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
   isLoggedIn: Observable<boolean>;
