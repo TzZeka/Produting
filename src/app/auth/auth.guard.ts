@@ -1,26 +1,22 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from '../../auth.service';
-import { map } from 'rxjs/operators';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { Observable, of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
+// Функционален подход за проверка на състоянието на логване
+export const authGuard = (): Observable<boolean> => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  canActivate(): Observable<boolean> {
-    return this.authService.isLoggedIn$.pipe(
-      map(isLoggedIn => {
-        if (!isLoggedIn) {
-          // Ако не е логнат, пренасочвам към login
-          this.router.navigate(['/login']);
-          return false;
-        }
-        return true; 
-      })
-    );
-  }
-}
+  return authService.isLoggedIn$.pipe(
+    take(1),  // Вземи само първото състояние
+    map(isLoggedIn => {
+      if (!isLoggedIn) {
+        router.navigate(['/login']); // Пренасочва към login, ако потребителят не е логнат
+        return false;
+      }
+      return true; // Позволява достъп, ако потребителят е логнат
+    })
+  );
+};

@@ -1,26 +1,22 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../auth.service';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AlreadyLoggedInGuard implements CanActivate {
+// Функционален подход за проверка на състоянието на логване
+export const alreadyLoggedInGuard = (): Observable<boolean> => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  canActivate(): Observable<boolean> {
-    return this.authService.isLoggedIn$.pipe(
-      map(isLoggedIn => {
-        if (isLoggedIn) {
-          // Пренасочвам към главната страница, ако потребителят е вече логнат
-          this.router.navigate(['/']);
-          return false;
-        }
-        return true; // Позволявам достъп до login и register за не-логнати потребители
-      })
-    );
-  }
-}
+  return authService.isLoggedIn$.pipe(
+    take(1), // Вземи само първото състояние
+    map(isLoggedIn => {
+      if (isLoggedIn) {
+        router.navigate(['/page-not-found']); // Ако е логнат, пренасочваме към "page-not-found"
+        return false;
+      }
+      return true; // Ако не е логнат, позволяваме достъп
+    })
+  );
+};

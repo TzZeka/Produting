@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthProductService } from '../../auth-product.service';
+import { AuthProductService } from '../../core/auth-product.service';
 
 @Component({
   selector: 'app-create',

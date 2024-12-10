@@ -1,5 +1,5 @@
+<!-- Покажи форма за логин, ако потребителят не е логнат -->
 <div *ngIf="!(isLoggedIn$ | async)" class="login-container">
-  <!-- Покажи форма за логин, ако потребителят не е логнат -->
   <h2>Login</h2>
   <form (submit)="onSubmit($event)">
     <div class="form-group">
@@ -31,11 +31,11 @@
   </form>
 
   <div class="footer">
-    <p>Don't have an account? <a routerLink="./register">Register here</a></p>
+    <p>Don't have an account? <a routerLink="/register">Register here</a></p>
   </div>
 </div>
 
-<!-- Ако потребителят е логнат, покажи съобщение (може да добавите пренасочване тук също) -->
-<div *ngIf="isLoggedIn$ | async" class="logged-in-message">
-  <p>You are already logged in.</p>
+<!-- Ако потребителят е логнат, покажи съобщение за логаут (може да добавиш пренасочване тук също) -->
+<div *ngIf="logoutMessage" class="logout-message">
+  {{ logoutMessage }}
 </div>

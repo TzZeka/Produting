@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where } from '@angular/fire/firestore';
-import { AuthService } from '../auth.service';
-import { Observable, from } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { Observable, from, EMPTY } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class AuthProductService {
   // Получаване на продуктите на конкретен потребител
   getMyProducts(): Observable<any[]> {
     const userId = this.authService.getCurrentUserId();
-    if (!userId) return new Observable();
+    if (!userId) return EMPTY;
 
     const productRef = collection(this.db, 'products');
     const q = query(productRef, where('userId', '==', userId)); // Филтрираме по userId
@@ -58,7 +58,7 @@ export class AuthProductService {
   // Получаване на любими продукти на даден потребител
   getFavourites(): Observable<any[]> {
     const userId = this.authService.getCurrentUserId();
-    if (!userId) return new Observable();
+    if (!userId) return EMPTY;
 
     const favouritesRef = collection(this.db, 'favourites');
     const q = query(favouritesRef, where('userId', '==', userId));
@@ -70,7 +70,7 @@ export class AuthProductService {
   // Добавяне на продукт в любими
   addFavourite(productId: string): Observable<string> {
     const userId = this.authService.getCurrentUserId();
-    if (!userId) return new Observable();
+    if (!userId) return EMPTY;
 
     const favouritesRef = collection(this.db, 'favourites');
     return from(addDoc(favouritesRef, { userId, productId })).pipe(
@@ -81,7 +81,7 @@ export class AuthProductService {
   // Премахване на продукт от любими
   removeFavourite(productId: string): Observable<void> {
     const userId = this.authService.getCurrentUserId();
-    if (!userId) return new Observable();
+    if (!userId) return EMPTY;
 
     const favouritesRef = collection(this.db, 'favourites');
     const q = query(favouritesRef, where('userId', '==', userId), where('productId', '==', productId));

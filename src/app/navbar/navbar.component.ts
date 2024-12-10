@@ -1,7 +1,7 @@
 // navbar.component.ts
 import { Component } from '@angular/core';
 import { Router,RouterLink,RouterLinkActive} from '@angular/router';
-import { AuthService } from '../../auth.service'; 
+import { AuthService } from '../services/auth.service'; 
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 @Component({

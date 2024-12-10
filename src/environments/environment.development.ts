@@ -1,13 +1,13 @@
 export const environment = {
-    
-    firebaseConfig : {
-        apiKey: "AIzaSyCbDq5CcdJXrogZwPoUVOjsibY4R9OkvpI",
-        authDomain: "produting-9fb14.firebaseapp.com",
-        databaseURL: "https://produting-9fb14-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "produting-9fb14",
-        storageBucket: "produting-9fb14.firebasestorage.app",
-        messagingSenderId: "985943690620",
-        appId: "1:985943690620:web:6acbc896d5683966fae8f9",
-        measurementId: "G-JWHY58N35T"
+    production: true,
+    firebaseConfig: {
+      apiKey: "YOUR_PRODUCTION_API_KEY",
+      authDomain: "your-production-project.firebaseapp.com",
+      databaseURL: "https://your-production-database.firebaseio.com",
+      projectId: "your-production-project-id",
+      storageBucket: "your-production-bucket.appspot.com",
+      messagingSenderId: "your-sender-id",
+      appId: "your-app-id",
+      measurementId: "your-measurement-id"
     }
-}
+  };
