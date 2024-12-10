@@ -1,86 +1,67 @@
+/* navbar.component.css */
 .navbar {
-  position: relative; /* За да можем да позиционираме псевдоелемента */
-  overflow: hidden; /* Да скрием ненужното съдържание */
-  padding: 10px 20px; /* Паддинг около навигацията */
-  z-index: 1; /* На преден план */
-}
-
-.navbar::before {
-  content: '';
-  position: absolute; /* Позиционираме зад съдържанието на навигацията */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1; /* Зад основното съдържание */
-  background: linear-gradient(270deg, rgba(255, 0, 150, 0.5), rgba(0, 204, 255, 0.5), rgba(255, 255, 0, 0.5), rgba(0, 255, 85, 0.5));
-  background-size: 400% 400%; /* Увеличаваме размера за анимацията */
-  animation: gradientAnimation 15s ease infinite; /* Анимация за фона */
-}
-
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
 }
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
-.logo img {
-  height: 50px; /* Променете на желаната височина */
-  width: auto; /* Запази пропорциите на изображението */
-  transition: transform 0.3s; /* Добавете плавен преход за анимация */
+.logo {
+  flex: 1;
+  transition: transform 0.3s ease;
 }
 
-.logo a:hover img {
-  transform: scale(1.1); /* Леко увеличаване на логото при ховър */
+.logo-img {
+  width: 100px; /* задайте ширината на логото */
+  height: auto;
+  transition: transform 0.3s ease;
 }
+
+/* Hover ефект за логото */
+.logo-img:hover {
+  transform: translateY(-5px);
+}
+
+/* Стилове за навигационните линкове */
 .nav-links {
-  list-style: none;
-  display: flex; /* Да се показва менюто хоризонтално */
-  margin: 0;
-  padding: 0;
+  display: flex;
+  gap: 20px;
 }
 
 .nav-item {
-  margin-left: 20px; /* Отстояние между елементите */
+  list-style-type: none;
 }
 
-.nav-item a,
+.nav-item a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover ефект за линковете */
+.nav-item a:hover {
+  background-color: #555;
+  transform: scale(1.1);
+}
+
+/* Стилове за бутона за изход */
 .logout-button {
-  color: rgb(14, 14, 14); /* Цвет на линковете */
-  text-decoration: none; /* Без подчертаване */
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  padding: 8px; /* Полета около линковете */
-  transition: background-color 0.3s; /* Плавен преход на фона */
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
 }
 
-.nav-item a:hover,
 .logout-button:hover {
-  background-color: rgba(255, 255, 255, 0.378); /* Преходен фон при ховър */
-  border-radius: 4px; /* Закръглени ъгли */
-}
-
-/* Стилове за активен елемент */
-.active {
-  background-color: rgba(255, 255, 255, 0.2); /* Фон за активен линк */
-}
-
-/* Логика за CSS на бутона за лог аут */
-.logout-button {
-  background: none; /* Без фон */
-  border: none; /* Без рамка */
-  cursor: pointer; /* Курсор за ръка */
-  font-family: inherit; /* Възприеме шрифтовете от родителския елемент */
-  padding: 8px; /* Полета около бутона */
+  background-color: #444;
 }

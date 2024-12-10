@@ -1,13 +1,15 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { firebaseConfig } from '../firebase-config'; // Уверете се, че този път е правилен
+import { provideFirestore, getFirestore } from '@angular/fire/firestore'; // Нови импорти
+import { firebaseConfig } from '../firebase-config'; // Пътят до конфигурационния файл на Firebase
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideFirebaseApp(() => initializeApp(firebaseConfig)), // Добавете Firebase инициализация
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirestore(() => getFirestore()), // Инициализация на Firestore
   ]
 };

@@ -1,12 +1,20 @@
 import { Component } from '@angular/core';
+import { AuthProductService } from '../../auth-product.service';
 
 @Component({
   selector: 'app-create',
-  standalone: true,
-  imports: [],
   templateUrl: './create.component.html',
-  styleUrl: './create.component.css'
+  styleUrls: ['./create.component.css']
 })
 export class CreateComponent {
+  newProduct = { name: '', description: '', price: 0 };
 
+  constructor(private authProductService: AuthProductService) {}
+
+  onSubmit(): void {
+    this.authProductService.addProduct(this.newProduct).subscribe((productId) => {
+      console.log('Product created with ID:', productId);
+      this.newProduct = { name: '', description: '', price: 0 }; // Reset the form
+    });
+  }
 }

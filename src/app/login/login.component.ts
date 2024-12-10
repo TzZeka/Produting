@@ -1,21 +1,36 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../auth.service'; // Уверете се, че пътят до AuthService е правилен
+import { AuthService } from '../../auth.service';
+import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports:[CommonModule,],
+  imports: [CommonModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
   successMessage: string = '';
+  isLoggedIn$: Observable<boolean>; // Дефинираме isLoggedIn$ като Observable
 
-  constructor(private authService: AuthService) {} // Създаване на AuthService инстанция
+  constructor(private authService: AuthService) {
+    // Получаваме isLoggedIn$ от AuthService
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+  }
+
+  // Метод за обработка на събитията от полетата за email и password
+  onInput(event: Event, type: 'email' | 'password'): void {
+    const target = event.target as HTMLInputElement; // Декларираме типа
+    if (type === 'email') {
+      this.email = target.value; // Записваме стойността на email
+    } else if (type === 'password') {
+      this.password = target.value; // Записваме стойността на парола
+    }
+  }
 
   onSubmit(event: Event) {
     event.preventDefault(); // Предотвратяване на презареждане на страницата
@@ -48,15 +63,5 @@ export class LoginComponent {
   clearForm() {
     this.email = '';
     this.password = '';
-  }
-
-  // Метод за обработка на входа за имейл и парола
-  onInput(event: Event, type: 'email' | 'password') {
-    const target = event.target as HTMLInputElement; // Декларация на типа
-    if (type === 'email') {
-      this.email = target.value;
-    } else if (type === 'password') {
-      this.password = target.value;
-    }
   }
 }

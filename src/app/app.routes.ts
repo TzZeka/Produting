@@ -13,18 +13,21 @@ import { CatalogComponent } from './models/catalog/catalog.component';
 import { FavoritesComponent } from './models/favorites/favorites.component';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthGuard } from './auth/auth.guard';
+import { AlreadyLoggedInGuard } from './auth/already-logged-in.guard';
+
 export const routes: Routes = [
     {path: '', component: HomeComponent },
     { path: 'about', component: AboutComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LoginComponent, canActivate: [AlreadyLoggedInGuard]},
+    { path: 'register', component: RegisterComponent, canActivate: [AlreadyLoggedInGuard]},
 
-    { path: 'search', component: SearchComponent },
+    { path: 'search', component: SearchComponent,canActivate: [AuthGuard] },
     
-    { path: 'my-products', component: MyProductsComponent },
-    { path: 'create', component: CreateComponent },
-    { path: 'catalog', component: CatalogComponent },
-    { path: 'favorites', component: FavoritesComponent },
+    { path: 'my-products', component: MyProductsComponent, canActivate: [AuthGuard] },
+    { path: 'create', component: CreateComponent, canActivate: [AuthGuard] },
+    { path: 'catalog', component: CatalogComponent, canActivate: [AuthGuard] },
+    { path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuard] },
     { path: '**', component: PageNotFoundComponent },
     
 ];

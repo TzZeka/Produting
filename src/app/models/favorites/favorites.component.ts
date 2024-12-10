@@ -1,12 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../auth.service';
+import { ProductService } from '../../product.service';
 
 @Component({
-  selector: 'app-favorites',
+  selector: 'app-favourites',
   standalone: true,
-  imports: [],
   templateUrl: './favorites.component.html',
-  styleUrl: './favorites.component.css'
+  styleUrls: ['./favorites.component.css'],
 })
-export class FavoritesComponent {
+export class FavoritesComponent implements OnInit {
+  favourites: any[] = [];
 
+  constructor(private authService: AuthService, private productService: ProductService) {}
+
+  ngOnInit() {
+    const userId = this.authService.getCurrentUserId(); // Вземаме userId
+    if (userId) {
+      this.productService.getFavourites(userId).subscribe((data) => {
+        this.favourites = data; // Записваме любимите продукти
+      });
+    }
+  }
+
+  addToFavourites(productId: string) {
+    const userId = this.authService.getCurrentUserId();
+    if (userId) {
+      this.productService.addFavourite(userId, productId).subscribe(() => {
+        console.log('Product added to favourites');
+      });
+    }
+  }
+
+  removeFromFavourites(productId: string) {
+    const userId = this.authService.getCurrentUserId();
+    if (userId) {
+      this.productService.removeFavourite(userId, productId).subscribe(() => {
+        console.log('Product removed from favourites');
+      });
+    }
+  }
 }

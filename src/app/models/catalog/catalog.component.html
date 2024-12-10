@@ -1,1 +1,19 @@
-<p>catalog works!</p>
+<div class="catalog-container">
+  <h2>Catalog</h2>
+
+  <!-- Списък с продукти -->
+  <div *ngFor="let product of products" class="product-card">
+    <div class="product-details">
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.description }}</p>
+      <p>{{ product.price | currency }}</p>
+    </div>
+
+    <div class="product-actions">
+      <!-- Бутон за добавяне в любими -->
+      <button (click)="addToFavourites(product.id)">
+        Add to Favourites
+      </button>
+    </div>
+  </div>
+</div>
