@@ -4,19 +4,19 @@ import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
-// Функционален подход за проверка на състоянието на логване
+// Гард за проверка дали потребителят е логнат
 export const alreadyLoggedInGuard = (): Observable<boolean> => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   return authService.isLoggedIn$.pipe(
-    take(1), // Вземи само първото състояние
+    take(1),
     map(isLoggedIn => {
       if (isLoggedIn) {
-        router.navigate(['/page-not-found']); // Ако е логнат, пренасочваме към "page-not-found"
+        router.navigate(['/home']);
         return false;
       }
-      return true; // Ако не е логнат, позволяваме достъп
+      return true;
     })
   );
 };

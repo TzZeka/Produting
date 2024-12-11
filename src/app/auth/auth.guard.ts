@@ -1,22 +1,22 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
-// Функционален подход за проверка на състоянието на логване
+// Гард за проверка дали потребителят е логнат
 export const authGuard = (): Observable<boolean> => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   return authService.isLoggedIn$.pipe(
-    take(1),  // Вземи само първото състояние
+    take(1),
     map(isLoggedIn => {
       if (!isLoggedIn) {
-        router.navigate(['/login']); // Пренасочва към login, ако потребителят не е логнат
+        router.navigate(['/login']);
         return false;
       }
-      return true; // Позволява достъп, ако потребителят е логнат
+      return true;
     })
   );
 };

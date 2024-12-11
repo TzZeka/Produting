@@ -17,10 +17,8 @@ import { authGuard } from './auth/auth.guard';
 import { alreadyLoggedInGuard } from './auth/already-logged-in.guard';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
-
-    { path: 'home', component: HomeComponent },
     { path: 'about', component: AboutComponent },
+
     { path: 'login', component: LoginComponent, canActivate: [alreadyLoggedInGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [alreadyLoggedInGuard] },
   
@@ -29,7 +27,10 @@ export const routes: Routes = [
     { path: 'create', component: CreateComponent, canActivate: [authGuard] },
     { path: 'catalog', component: CatalogComponent},
     { path: 'favorites', component: FavoritesComponent, canActivate: [authGuard] },
+    { path: 'home', component: HomeComponent},
 
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    
 
     { path: '**', component: PageNotFoundComponent },
     

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; 
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule } from '@angular/common';
@@ -6,7 +6,7 @@ import { AuthService } from './services/auth.service';
 
 @Component({
     selector: 'app-root',
-    standalone:true,
+    standalone: true,
     imports: [
         RouterOutlet,
         NavbarComponent,
@@ -17,17 +17,17 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'produting';
-  isLoggedIn: boolean =false;
+  isLoggedIn: boolean = false;
 
   constructor(private authService: AuthService) {
-    // Проверка на текущия потребител
-    this.authService.checkAuthStatus();
-   
+    
+    // this.authService.checkAuthStatus(); // Няма нужда от този метод
   }
-    ngOnInit() {
+
+  ngOnInit() {
     // Проверка дали потребителят е логнат
     this.authService.isLoggedIn$.subscribe(status => {
-      this.isLoggedIn = status;
+      this.isLoggedIn = status;  // Актуализирайте състоянието на приложението
     });
   }
 }

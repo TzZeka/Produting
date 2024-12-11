@@ -41,19 +41,29 @@ export class MyProductsComponent implements OnInit {
 
   // Метод за актуализиране на продукт
   updateProduct(): void {
+    // Валидация на данни
     if (!this.editProductData.name || !this.editProductData.description) {
-      // Можете да добавите валидация тук
       console.log('Product data is incomplete!');
       return;
     }
-
-    this.authProductService.updateProduct(this.editProductData.id, this.editProductData).subscribe(() => {
-      console.log('Product updated successfully');
-      // Презареждаме продуктите
-      this.authProductService.getMyProducts().subscribe((data) => {
-        this.products = data;
-      });
-      this.editProductData = { id: '', name: '', description: '', price: 0 }; // Изчистваме данните след актуализация
+  
+    // Актуализиране на продукта чрез AuthProductService
+    this.authProductService.updateProduct(this.editProductData.id, this.editProductData).subscribe({
+      next: () => {
+        console.log('Product updated successfully');
+  
+        // Презареждаме продуктите
+        this.authProductService.getMyProducts().subscribe(data => {
+          this.products = data;
+        });
+  
+        // Изчистваме формата за редактиране
+        this.editProductData = { id: '', name: '', description: '', price: 0 };
+      },
+      error: (error: Error) => {  // Добавяме типа на 'error' параметъра
+        console.error('Error updating product:', error.message);  // Показваме само съобщението за грешка
+      }
     });
   }
+  
 }

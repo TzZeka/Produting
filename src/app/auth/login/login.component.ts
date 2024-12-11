@@ -3,11 +3,12 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -16,21 +17,20 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
   successMessage: string = '';
-  isLoggedIn$: Observable<boolean>; 
-  logoutMessage: string = '';  // 
+  isLoggedIn$: Observable<boolean>;
+  logoutMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) {
-    // Получаваме isLoggedIn$ от AuthService
     this.isLoggedIn$ = this.authService.isLoggedIn$;
   }
 
   // Метод за обработка на събитията от полетата за email и password
   onInput(event: Event, type: 'email' | 'password'): void {
-    const target = event.target as HTMLInputElement; // Декларираме типа
+    const target = event.target as HTMLInputElement;
     if (type === 'email') {
-      this.email = target.value; // Записваме стойността на email
+      this.email = target.value;
     } else if (type === 'password') {
-      this.password = target.value; // Записваме стойността на парола
+      this.password = target.value;
     }
   }
 
@@ -39,31 +39,29 @@ export class LoginComponent {
     event.preventDefault(); // Предотвратяване на презареждане на страницата
     this.errorMessage = '';
     this.successMessage = '';
-  
-    // Основна проверка
+
+    // Проверки на входните данни
     if (!this.email || !this.password) {
       this.errorMessage = 'Please fill out all fields.';
       return;
     }
-  
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(this.email)) {
       this.errorMessage = 'Please enter a valid email address.';
       return;
     }
-  
+
     // Извикване на метода за вход от AuthService
     this.authService.login(this.email, this.password)
       .then(() => {
         this.successMessage = 'Logged in successfully!';
-        this.clearForm(); // Изчистваме формата
         this.router.navigate(['/home']);  // Редирект към началната страница
       })
-      .catch((error: string) => {
-        this.errorMessage = error; // Показваме съобщението за грешка
+      .catch((error: any) => {
+        this.errorMessage = error.message || 'Login failed!';
       });
   }
-  
 
   // Метод за логаут
   async onLogout(): Promise<void> {
@@ -76,16 +74,11 @@ export class LoginComponent {
       
       // След логаут пренасочване към страницата за логин
       await this.router.navigate(['/login']);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = 'Error during logout: ' + error.message;
-      } else {
-        this.errorMessage = 'An unknown error occurred during logout.';
-      }
+    } catch (error: any) {
+      this.errorMessage = error.message || 'Error during logout.';
     }
   }
 
-  // Метод за изчистване на формата
   clearForm(): void {
     this.email = '';
     this.password = '';

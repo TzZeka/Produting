@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { FormsModule } from '@angular/forms';  
-import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [FormsModule, CommonModule], 
+  imports: [FormsModule, CommonModule],
 })
 export class RegisterComponent {
   name: string = '';
@@ -18,15 +18,14 @@ export class RegisterComponent {
   confirmPassword: string = '';
   errorMessage: string = '';
   successMessage: string = '';
-  isLoggedIn$: Observable<boolean>; // Дефинирам isLoggedIn$ като Observable
+  isLoggedIn$: Observable<boolean>;
 
   constructor(private authService: AuthService) {
-    // Получаваме isLoggedIn$ от AuthService
     this.isLoggedIn$ = this.authService.isLoggedIn$;
   }
 
   onInput(event: Event, type: 'name' | 'email' | 'password' | 'confirmPassword'): void {
-    const target = event.target as HTMLInputElement; // Декларирам типа
+    const target = event.target as HTMLInputElement;
     if (type === 'name') {
       this.name = target.value;
     } else if (type === 'email') {
@@ -39,11 +38,11 @@ export class RegisterComponent {
   }
 
   onSubmit(event: Event) {
-    event.preventDefault(); // Предотвратяване на презареждане на страницата
+    event.preventDefault();
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Проверки на въведените данни
+    // Проверка на всички полета
     if (!this.name || !this.email || !this.password || !this.confirmPassword) {
       this.errorMessage = 'Please fill out all fields.';
       return;
@@ -60,15 +59,25 @@ export class RegisterComponent {
       return;
     }
 
-    // Извикване на метода за регистрация от AuthService
-    this.authService.register(this.email, this.password)
-      .then(() => {
-        this.successMessage = 'Registration successful! You can now log in.';
-        this.clearForm(); // Изчистваме формата
+    // Проверка за съществуващ потребител преди регистрация
+    this.authService.checkUserExists(this.email)
+      .then((exists) => {
+        if (exists) {
+          this.errorMessage = 'User already exists. Please login.';
+        } else {
+          // Регистрация на нов потребител
+          this.authService.register(this.email, this.password)
+            .then(() => {
+              this.successMessage = 'Registration successful! You can now log in.';
+              this.clearForm();
+            })
+            .catch((error: any) => {
+              this.errorMessage = error.message || 'Registration failed!';
+            });
+        }
       })
-      .catch((error: string) => {
-        this.errorMessage = error; // Показваме съобщението за грешка
-        console.error('Registration failed:', error);
+      .catch((error) => {
+        this.errorMessage = error.message || 'Error checking user existence.';
       });
   }
 
