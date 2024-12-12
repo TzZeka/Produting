@@ -1,22 +1,29 @@
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
+import { map } from 'rxjs/operators';
 
-// Гард за проверка дали потребителят е логнат
-export const alreadyLoggedInGuard = (): Observable<boolean> => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
+@Injectable({
+  providedIn: 'root'
+})
+export class NoAuthGuard implements CanActivate {
 
-  return authService.isLoggedIn$.pipe(
-    take(1),
-    map(isLoggedIn => {
-      if (isLoggedIn) {
-        router.navigate(['/home']);
-        return false;
-      }
-      return true;
-    })
-  );
-};
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
+    return this.authService.isLoggedIn$.pipe(
+      map(isLoggedIn => {
+        if (isLoggedIn) {
+          this.router.navigate(['/home']); // Ако потребителят е логнат, пренасочва към home
+          return false; // Блокира достъпа до логин и регистрация
+        } else {
+          return true; // Разрешава достъпа до логин и регистрация
+        }
+      })
+    );
+  }
+}

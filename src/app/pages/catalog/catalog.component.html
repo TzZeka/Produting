@@ -1,19 +1,16 @@
-<div class="catalog-container">
-  <h2>Catalog</h2>
-
-  <!-- Списък с продукти -->
-  <div *ngFor="let product of products" class="product-card">
-    <div class="product-details">
-      <h3>{{ product.name }}</h3>
-      <p>{{ product.description }}</p>
-      <p>{{ product.price | currency }}</p>
-    </div>
-
-    <div class="product-actions">
-      <!-- Бутон за добавяне в любими -->
-      <button (click)="addToFavourites(product.id)">
-        Add to Favourites
-      </button>
-    </div>
+<div *ngFor="let product of getPagedProducts()">
+  <div class="product">
+    <h3>{{ product.name || 'No Name Available' }}</h3>
+    <p>{{ product.description || 'No Description Available' }}</p>
+    <p>Price: {{ product.price }} $</p>
+    <button (click)="addToFavorites(product.id)">Add to Favorites</button>
+    <button (click)="viewDetails(product.id)">View Details</button>
   </div>
+</div>
+
+
+
+<div class="pagination">
+  <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">Previous</button>
+  <button (click)="currentPage = currentPage + 1" [disabled]="currentPage * productsPerPage >= products.length">Next</button>
 </div>

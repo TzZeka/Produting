@@ -1,29 +1,10 @@
-<!-- MyProductsComponent HTML -->
-<div *ngFor="let product of products">
-  <div>
+<div *ngFor="let product of myProducts">
+  <div class="product">
     <h3>{{ product.name }}</h3>
     <p>{{ product.description }}</p>
-    <p>{{ product.price | currency }}</p>
-
-    <!-- Бутон за редактиране -->
-    <button (click)="editProduct(product)">Edit</button>
+    <p>Price: {{ product.price }} $</p>
+    <button (click)="editProduct(product.id)">Edit</button>
     <button (click)="deleteProduct(product.id)">Delete</button>
+    <button (click)="viewDetails(product.id)">View Details</button>
   </div>
-</div>
-
-<!-- Форма за редактиране на продукт -->
-<div *ngIf="editProductData.id">
-  <h2>Edit Product</h2>
-  <form (ngSubmit)="updateProduct()">
-    <label for="name">Name:</label>
-    <input id="name" [(ngModel)]="editProductData.name" name="name" required />
-
-    <label for="description">Description:</label>
-    <input id="description" [(ngModel)]="editProductData.description" name="description" required />
-
-    <label for="price">Price:</label>
-    <input id="price" [(ngModel)]="editProductData.price" name="price" type="number" required />
-
-    <button type="submit">Update Product</button>
-  </form>
 </div>

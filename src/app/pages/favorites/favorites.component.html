@@ -1,1 +1,9 @@
-<p>favorites works!</p>
+<div *ngFor="let product of favorites">
+    <div class="product">
+      <h3>{{ product.name || 'No Name Available' }}</h3> <!-- Ако product.name е undefined, ще се покаже 'No Name Available' -->
+      <p>{{ product.description || 'No Description Available' }}</p> <!-- Ако product.description е undefined, ще се покаже 'No Description Available' -->
+      <p>Price: {{ product.price }} $</p>
+      <button (click)="removeFromFavorites(product.id)">Remove from Favorites</button> <!-- Безопасно извикване на product.id -->
+    </div>
+  </div>
+  

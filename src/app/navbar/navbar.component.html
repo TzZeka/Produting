@@ -7,30 +7,73 @@
     </div>
 
     <ul class="nav-links" role="navigation">
+      <!-- Общи линкове за всички потребители -->
       <li class="nav-item">
-        <a routerLink="/" routerLinkActive="active">Home</a>
+        <a routerLink="/" routerLinkActive="active">
+          <span class="material-icons">home</span>
+        </a>
+        <span class="nav-text">Home</span>
       </li>
+
       <li class="nav-item">
-        <a routerLink="/about" routerLinkActive="active">About</a>
-        
+        <a routerLink="/about" routerLinkActive="active">
+          <span class="material-icons">info</span>
+        </a>
+        <span class="nav-text">About</span>
       </li>
+
+      <!-- Линкове за логнати потребители -->
       <ng-container *ngIf="isLoggedIn$ | async; else loggedOutNav">
         <li class="nav-item">
-          <a routerLink="/my-products" routerLinkActive="active">My Products</a>
-          <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
-          <a routerLink="/create" routerLinkActive="active">Create</a>
-          <a routerLink="/favorites" routerLinkActive="active">Favourites</a>
+          <a routerLink="/my-products" routerLinkActive="active">
+            <span class="material-icons">businesses_center</span>
+          </a>
+          <span class="nav-text">My Products</span>
         </li>
+
         <li class="nav-item">
-          <button (click)="logout()" aria-label="Logout" class="logout-button">Logout</button>
+          <a routerLink="/catalog" routerLinkActive="active">
+            <span class="material-icons">storefront</span>
+          </a>
+          <span class="nav-text">Catalog</span>
+        </li>
+
+        <li class="nav-item">
+          <a routerLink="/create" routerLinkActive="active">
+            <span class="material-icons">add_circle</span>
+          </a>
+          <span class="nav-text">Create</span>
+        </li>
+
+        <li class="nav-item">
+          <a routerLink="/favorites" routerLinkActive="active">
+            <span class="material-icons">favorite</span>
+          </a>
+          <span class="nav-text">Favorites</span>
+        </li>
+
+        <li class="nav-item">
+          <button (click)="logout()" aria-label="Logout" class="logout-button">
+            <span class="material-icons">logout</span>
+          </button>
+          <span class="nav-text">Logout</span>
         </li>
       </ng-container>
+
+      <!-- Линкове за не-логнати потребители -->
       <ng-template #loggedOutNav>
         <li class="nav-item">
-          <a routerLink="/login" routerLinkActive="active">Login</a>
+          <a routerLink="/login" routerLinkActive="active">
+            <span class="material-icons">login</span>
+          </a>
+          <span class="nav-text">Login</span>
         </li>
+
         <li class="nav-item">
-          <a routerLink="/register" routerLinkActive="active">Register</a>
+          <a routerLink="/register" routerLinkActive="active">
+            <span class="material-icons">person_add</span>
+          </a>
+          <span class="nav-text">Register</span>
         </li>
       </ng-template>
     </ul>

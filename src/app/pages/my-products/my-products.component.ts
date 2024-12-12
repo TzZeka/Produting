@@ -1,69 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthProductService } from '../../core/auth-product.service';
-import { FormsModule } from '@angular/forms';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../models/product.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-my-products',
-
   standalone: true,
-  imports: [FormsModule,CommonModule],
-
+  imports: [CommonModule],
   templateUrl: './my-products.component.html',
   styleUrls: ['./my-products.component.css']
 })
 export class MyProductsComponent implements OnInit {
-  products: any[] = [];
-  editProductData: any = { id: '', name: '', description: '', price: 0 }; // Структура за редактиране
+  myProducts: Product[] = [];
 
-  constructor(private authProductService: AuthProductService) {}
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    // Зареждаме продуктите на потребителя при инициализация на компонента
-    this.authProductService.getMyProducts().subscribe((data) => {
-      this.products = data;
+    this.loadMyProducts();
+  }
+
+  loadMyProducts(): void {
+    this.productService.getMyProducts().subscribe((products) => {
+      this.myProducts = products;
     });
   }
 
-  // Метод за премахване на продукт
   deleteProduct(productId: string): void {
-    this.authProductService.deleteProduct(productId).subscribe(() => {
-      // Прекарваме списъка с продукти, като изтриваме конкретния продукт
-      this.products = this.products.filter(product => product.id !== productId);
+    this.productService.deleteProduct(productId).subscribe(() => {
+      this.myProducts = this.myProducts.filter(p => p.id !== productId);
     });
   }
 
-  // Метод за отваряне на форма за редактиране на продукт
-  editProduct(product: any): void {
-    // Попълваме данните в полетата за редактиране
-    this.editProductData = { ...product };
+  editProduct(productId: string): void {
+    // Навигация към компонент за редактиране на продукт
+    console.log(`Edit product: ${productId}`);
   }
 
-  // Метод за актуализиране на продукт
-  updateProduct(): void {
-    // Валидация на данни
-    if (!this.editProductData.name || !this.editProductData.description) {
-      console.log('Product data is incomplete!');
-      return;
-    }
-  
-    // Актуализиране на продукта чрез AuthProductService
-    this.authProductService.updateProduct(this.editProductData.id, this.editProductData).subscribe({
-      next: () => {
-        console.log('Product updated successfully');
-  
-        // Презареждаме продуктите
-        this.authProductService.getMyProducts().subscribe(data => {
-          this.products = data;
-        });
-  
-        // Изчистваме формата за редактиране
-        this.editProductData = { id: '', name: '', description: '', price: 0 };
-      },
-      error: (error: Error) => {  // Добавяме типа на 'error' параметъра
-        console.error('Error updating product:', error.message);  // Показваме само съобщението за грешка
-      }
-    });
+  viewDetails(productId: string): void {
+    console.log(`View details for product: ${productId}`);
   }
-  
 }

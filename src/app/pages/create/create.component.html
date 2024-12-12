@@ -1,1 +1,16 @@
-<p>create works!</p>
+<form (ngSubmit)="createProduct()">
+    <label for="name">Name:</label>
+    <input id="name" [(ngModel)]="newProduct.name" name="name" required>
+  
+    <label for="description">Description:</label>
+    <textarea id="description" [(ngModel)]="newProduct.description" name="description" required></textarea>
+  
+    <label for="price">Price:</label>
+    <input id="price" [(ngModel)]="newProduct.price" name="price" type="number" required>
+  
+    <label for="quantity">Quantity:</label>
+    <input id="quantity" [(ngModel)]="newProduct.quantity" name="quantity" type="number" required>
+  
+    <button type="submit">Create Product</button>
+  </form>
+  

@@ -60,25 +60,7 @@ export class RegisterComponent {
     }
 
     // Проверка за съществуващ потребител преди регистрация
-    this.authService.checkUserExists(this.email)
-      .then((exists) => {
-        if (exists) {
-          this.errorMessage = 'User already exists. Please login.';
-        } else {
-          // Регистрация на нов потребител
-          this.authService.register(this.email, this.password)
-            .then(() => {
-              this.successMessage = 'Registration successful! You can now log in.';
-              this.clearForm();
-            })
-            .catch((error: any) => {
-              this.errorMessage = error.message || 'Registration failed!';
-            });
-        }
-      })
-      .catch((error) => {
-        this.errorMessage = error.message || 'Error checking user existence.';
-      });
+    
   }
 
   clearForm() {

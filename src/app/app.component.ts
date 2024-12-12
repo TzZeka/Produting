@@ -19,10 +19,7 @@ export class AppComponent implements OnInit {
   title = 'produting';
   isLoggedIn: boolean = false;
 
-  constructor(private authService: AuthService) {
-    
-    // this.authService.checkAuthStatus(); // Няма нужда от този метод
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     // Проверка дали потребителят е логнат

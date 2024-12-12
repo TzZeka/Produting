@@ -1,32 +1,79 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where } from '@angular/fire/firestore';
+import { AuthService } from './auth.service';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Product } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore, private authService: AuthService) {}
 
   // Получаване на всички продукти
-  getProducts(): Observable<any[]> {
-    const productRef = collection(this.firestore, 'products');
-    return from(getDocs(productRef)).pipe(
-      map(snapshot => snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })))
+  getProducts(): Observable<Product[]> {
+    return from(getDocs(collection(this.firestore, 'products'))).pipe(
+      map(snapshot => snapshot.docs.map(doc => {
+        const data = doc.data() as { name: string, price: number, description: string }; // Типизация на данните
+        return {
+          id: doc.id,
+          name: data.name,
+          price: data.price,
+          description: data.description
+          // Добави още полета, ако е необходимо
+        } as Product; // Мапиране към тип Product
+      }))
+    );
+  }
+
+  // Получаване на продукти на текущия потребител
+  getMyProducts(): Observable<Product[]> {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      return new Observable(observer => {
+        observer.error('User not logged in');
+        observer.complete();
+      });
+    }
+
+    const productsRef = collection(this.firestore, 'products');
+    const q = query(productsRef, where('userId', '==', userId));
+    return from(getDocs(q)).pipe(
+      map(snapshot => snapshot.docs.map(doc => {
+        const data = doc.data() as { name: string, price: number, description: string }; // Типизация на данните
+        return {
+          id: doc.id,
+          name: data.name,
+          price: data.price,
+          description: data.description
+          // Добави още полета, ако е необходимо
+        } as Product; // Мапиране към тип Product
+      }))
     );
   }
 
   // Добавяне на нов продукт
-  addProduct(product: any): Observable<string> {
-    const productRef = collection(this.firestore, 'products');
-    return from(addDoc(productRef, product)).pipe(
-      map(docRef => docRef.id)
+  addProduct(product: Product): Observable<Product> {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      return new Observable(observer => {
+        observer.error('User not logged in');
+        observer.complete();
+      });
+    }
+  
+    const newProduct = { ...product, userId };  // Добавяме userId към продукта
+    return from(addDoc(collection(this.firestore, 'products'), newProduct)).pipe(
+      map(docRef => ({
+        ...newProduct,  // Запазваме останалите данни на продукта
+        id: docRef.id   // Добавяме ID от Firestore
+      }))
     );
   }
 
   // Актуализиране на продукт
-  updateProduct(id: string, product: any): Observable<void> {
+  updateProduct(id: string, product: Product): Observable<void> {
     const productRef = doc(this.firestore, 'products', id);
     return from(updateDoc(productRef, product));
   }
@@ -38,31 +85,60 @@ export class ProductService {
   }
 
   // Получаване на любими продукти на даден потребител
-  getFavourites(userId: string): Observable<any[]> {
+  getFavourites(): Observable<Product[]> {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      return new Observable(observer => {
+        observer.error('User not logged in');
+        observer.complete();
+      });
+    }
+
     const favouritesRef = collection(this.firestore, 'favourites');
     const q = query(favouritesRef, where('userId', '==', userId));
     return from(getDocs(q)).pipe(
-      map(snapshot => snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })))
+      map(snapshot => snapshot.docs.map(doc => {
+        const data = doc.data() as { name: string, price: number, description: string }; // Типизация на данните
+        return {
+          id: doc.id,
+          name: data.name,
+          price: data.price,
+          description: data.description
+          
+        } as Product; // Мапиране към тип Product
+      }))
     );
   }
 
   // Добавяне на продукт в любими
-  addFavourite(userId: string, productId: string): Observable<string> {
-    const favouritesRef = collection(this.firestore, 'favourites');
-    return from(addDoc(favouritesRef, { userId, productId })).pipe(
+  addFavourite(productId: string): Observable<string> {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      return new Observable(observer => {
+        observer.error('User not logged in');
+        observer.complete();
+      });
+    }
+
+    return from(addDoc(collection(this.firestore, 'favourites'), { userId, productId })).pipe(
       map(docRef => docRef.id)
     );
   }
 
   // Премахване на продукт от любими
-  removeFavourite(userId: string, productId: string): Observable<void> {
-    const favouritesRef = collection(this.firestore, 'favourites');
-    const q = query(favouritesRef, where('userId', '==', userId), where('productId', '==', productId));
+  removeFavourite(productId: string): Observable<void> {
+    const userId = this.authService.getCurrentUserId();
+    if (!userId) {
+      return new Observable(observer => {
+        observer.error('User not logged in');
+        observer.complete();
+      });
+    }
+
+    const q = query(collection(this.firestore, 'favourites'), where('userId', '==', userId), where('productId', '==', productId));
     return from(getDocs(q)).pipe(
       map(snapshot => {
-        snapshot.docs.forEach(doc => {
-          deleteDoc(doc.ref);
-        });
+        snapshot.docs.forEach(doc => deleteDoc(doc.ref));
       })
     );
   }
