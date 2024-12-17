@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where, getDoc } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,18 +12,37 @@ export class ProductService {
   constructor(private firestore: Firestore, private authService: AuthService) {}
 
   // Получаване на всички продукти
-  getProducts(): Observable<Product[]> {
-    return from(getDocs(collection(this.firestore, 'products'))).pipe(
-      map(snapshot => snapshot.docs.map(doc => {
-        const data = doc.data() as { name: string, price: number, description: string }; // Типизация на данните
+  getProducts(): Observable<Product[]> { 
+    const productsCollection = collection(this.firestore, 'products'); 
+    return from(getDocs(productsCollection)).pipe( 
+      map(snapshot => { 
+        console.log('Snapshot:', snapshot);
+        return snapshot.docs.map(doc => {  
+      const data = doc.data() as { name: string, price: number, description: string }; 
+      return { 
+        id: doc.id, 
+        name: data.name, 
+        price: data.price, 
+        description: data.description 
+      } as Product;
+    });
+  })
+  );
+  }
+
+  // Получаване на продукт по ID
+  getProductById(id: string): Observable<Product> {
+    const productRef = doc(this.firestore, 'products', id);
+    return from(getDoc(productRef)).pipe(
+      map(doc => {
+        const data = doc.data() as { name: string, price: number, description: string };
         return {
           id: doc.id,
           name: data.name,
           price: data.price,
           description: data.description
-          // Добави още полета, ако е необходимо
-        } as Product; // Мапиране към тип Product
-      }))
+        } as Product;
+      })
     );
   }
 
@@ -41,14 +60,13 @@ export class ProductService {
     const q = query(productsRef, where('userId', '==', userId));
     return from(getDocs(q)).pipe(
       map(snapshot => snapshot.docs.map(doc => {
-        const data = doc.data() as { name: string, price: number, description: string }; // Типизация на данните
+        const data = doc.data() as { name: string, price: number, description: string };
         return {
           id: doc.id,
           name: data.name,
           price: data.price,
           description: data.description
-          // Добави още полета, ако е необходимо
-        } as Product; // Мапиране към тип Product
+        } as Product;
       }))
     );
   }
@@ -63,11 +81,11 @@ export class ProductService {
       });
     }
   
-    const newProduct = { ...product, userId };  // Добавяме userId към продукта
+    const newProduct = { ...product, userId };
     return from(addDoc(collection(this.firestore, 'products'), newProduct)).pipe(
       map(docRef => ({
-        ...newProduct,  // Запазваме останалите данни на продукта
-        id: docRef.id   // Добавяме ID от Firestore
+        ...newProduct,
+        id: docRef.id
       }))
     );
   }
@@ -98,14 +116,13 @@ export class ProductService {
     const q = query(favouritesRef, where('userId', '==', userId));
     return from(getDocs(q)).pipe(
       map(snapshot => snapshot.docs.map(doc => {
-        const data = doc.data() as { name: string, price: number, description: string }; // Типизация на данните
+        const data = doc.data() as { name: string, price: number, description: string };
         return {
           id: doc.id,
           name: data.name,
           price: data.price,
           description: data.description
-          
-        } as Product; // Мапиране към тип Product
+        } as Product;
       }))
     );
   }

@@ -8,27 +8,20 @@
 
     <ul class="nav-links" role="navigation">
       <!-- Общи линкове за всички потребители -->
-      <li class="nav-item">
+      <li class="nav-item" >
         <a routerLink="/" routerLinkActive="active">
           <span class="material-icons">home</span>
         </a>
         <span class="nav-text">Home</span>
       </li>
 
-      <li class="nav-item">
-        <a routerLink="/about" routerLinkActive="active">
-          <span class="material-icons">info</span>
-        </a>
-        <span class="nav-text">About</span>
-      </li>
-
       <!-- Линкове за логнати потребители -->
       <ng-container *ngIf="isLoggedIn$ | async; else loggedOutNav">
         <li class="nav-item">
           <a routerLink="/my-products" routerLinkActive="active">
-            <span class="material-icons">businesses_center</span>
+            <span class="material-icons">store</span>
           </a>
-          <span class="nav-text">My Products</span>
+          <span class="nav-text">Products</span>
         </li>
 
         <li class="nav-item">
@@ -62,6 +55,13 @@
 
       <!-- Линкове за не-логнати потребители -->
       <ng-template #loggedOutNav>
+        <li class="nav-item">
+          <a routerLink="/about" routerLinkActive="active">
+            <span class="material-icons">info</span>
+          </a>
+          <span class="nav-text">About</span>
+        </li>
+
         <li class="nav-item">
           <a routerLink="/login" routerLinkActive="active">
             <span class="material-icons">login</span>

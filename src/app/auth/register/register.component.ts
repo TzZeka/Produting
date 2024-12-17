@@ -60,7 +60,7 @@ export class RegisterComponent {
     }
 
     // Проверка за съществуващ потребител преди регистрация
-    
+
   }
 
   clearForm() {

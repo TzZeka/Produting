@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from 'firebase/auth';
-import { getFirestore, collection, getDocs, query, where, Firestore } from 'firebase/firestore';  // Импортиране на Firestore
+import { getFirestore, collection, getDocs, Firestore } from 'firebase/firestore';  // Импортиране на Firestore
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +85,9 @@ export class AuthService {
 
   // Проверка дали потребител е логнат (чрез BehaviorSubject)
   isUserLoggedIn(): boolean {
-    return this.isLoggedInSubject.getValue(); // Връща true или false в зависимост от състоянието на логнатия потребител
+
+    return this.isLoggedInSubject.getValue();
+     // Връща true или false в зависимост от състоянието на логнатия потребител
   }
+  
 }

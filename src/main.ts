@@ -6,7 +6,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { CommonModule } from '@angular/common';
 import { app } from './app/firebase-init'; // Импортирайте инициализирания Firebase app
-import { ProductService } from './app/services/product.service';
+
 
 // Стартирайте приложението
 bootstrapApplication(AppComponent, {

@@ -8,6 +8,7 @@ import { MyProductsComponent } from './pages/my-products/my-products.component';
 import { CreateComponent } from './pages/create/create.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
+import { ProductDetailsComponent } from './views/product-details/product-details.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './auth/auth.guard';
 import { NoAuthGuard } from './auth/already-logged-in.guard'; // Добавете NoAuthGuard
@@ -20,6 +21,7 @@ export const routes: Routes = [
   
     { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
     { path: 'my-products', component: MyProductsComponent, canActivate: [AuthGuard] },
+    { path: 'products/:id', component: ProductDetailsComponent},
     { path: 'create', component: CreateComponent, canActivate: [AuthGuard] },
     { path: 'catalog', component: CatalogComponent },
     { path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuard] },
