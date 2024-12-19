@@ -1,4 +1,4 @@
-Shopify
+Produting 
 Project is hosted at: http://produting-9fb14.firebaseapp.com
 
 Implements Firebase as BAAS & Cloud Firestore SDK.
