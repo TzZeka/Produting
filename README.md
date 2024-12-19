@@ -52,7 +52,7 @@ The app includes essential features to ensure a smooth user experience:
 ### 🔧 Client Project Setup
 
 To run the project locally, follow these steps:
-
+First you need to have Angular 19.0.0
 1. **Install dependencies**:  
    ```bash
    npm install
