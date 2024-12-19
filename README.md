@@ -27,6 +27,7 @@ The **Produting** app allows users to interact with products in the following wa
 - **About Page**: Information about the app.
 - **Register Page**: Users can create an account.
 - **Login Page**: Users can log in to access private functionality.
+- **Catalog Page**: Users can view catalog list of all products with details. You can add them to favourites as well.
 
 #### **Private (Authorized Users):**
 - **Product Management**: Authorized users can:
