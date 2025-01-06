@@ -1,89 +1,71 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
-import { getFirestore, collection, getDocs, Firestore } from '@angular/fire/firestore';
+import { Auth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
+import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // Състояние на логнатия потребител, използвайки BehaviorSubject за управление на логването
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();  // За проследяване на състоянието на логването
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  private auth = getAuth();  // Инстанция на Firebase Authentication
-  private db: Firestore;  // Инстанция на Firestore
-
-  constructor() {
-    this.db = getFirestore();  // Инициализиране на Firestore
-
-    // Проверка на състоянието на логнатия потребител при стартиране на приложението
+  constructor(private auth: Auth, private db: Firestore) { // Инжектирайте Auth и Firestore!
     onAuthStateChanged(this.auth, (user: User | null) => {
-      this.isLoggedInSubject.next(!!user);  // Актуализиране на състоянието на логнатия потребител
+      this.isLoggedInSubject.next(!!user);
     });
   }
 
-  // Логин метод, който приема имейл и парола
   async login(email: string, password: string): Promise<void> {
     try {
-      // Опит за логване с имейл и парола
       await signInWithEmailAndPassword(this.auth, email, password);
-      this.isLoggedInSubject.next(true);  // Поставя състоянието на логнатия потребител на true
+      this.isLoggedInSubject.next(true);
     } catch (error: unknown) {
-      this.handleAuthError(error);  // Обработка на грешка при логване
+      this.handleAuthError(error);
     }
   }
 
-  // Регистрация на нов потребител
   async register(email: string, password: string): Promise<void> {
     try {
-      // Опит за създаване на нов потребител
       await createUserWithEmailAndPassword(this.auth, email, password);
-      this.isLoggedInSubject.next(true);  // Поставя състоянието на логнатия потребител на true
+      this.isLoggedInSubject.next(true);
     } catch (error: unknown) {
-      this.handleAuthError(error);  // Обработка на грешка при регистрация
+      this.handleAuthError(error);
     }
   }
 
-  // Логаут метод
   async logout(): Promise<void> {
     try {
-      await signOut(this.auth);  // Изход от акаунта
-      this.isLoggedInSubject.next(false);  // Поставя състоянието на логнатия потребител на false
+      await signOut(this.auth);
+      this.isLoggedInSubject.next(false);
     } catch (error: unknown) {
-      this.handleAuthError(error);  // Обработка на грешка при логаут
+      this.handleAuthError(error);
     }
   }
 
-  // Метод за получаване на ID на текущия потребител
   getCurrentUserId(): string | null {
     const user = this.auth.currentUser;
-    return user ? user.uid : null;  // Връща ID на потребителя или null, ако не е логнат
+    return user ? user.uid : null;
   }
 
-  // Метод за получаване на текущия потребител (със всички негови данни)
-  getCurrentUser(): User | null {
-    return this.auth.currentUser;  // Връща обекта User или null, ако не е логнат
+    getCurrentUser(): User | null {
+    return this.auth.currentUser;
   }
 
-  // Проверка за връзка с Firestore
   async checkFirestoreConnection(): Promise<boolean> {
     try {
-      // Опит за извличане на документи от колекция "products"
       const snapshot = await getDocs(collection(this.db, 'products'));
-      return snapshot.empty === false;  // Връща true, ако има продукти в базата
+      return snapshot.empty === false;
     } catch (error) {
-      console.error('Error checking Firestore connection:', error);  // Логва грешката
-      return false;  // Връща false, ако има грешка при свързването
+      console.error('Error checking Firestore connection:', error);
+      return false;
     }
   }
 
-  // Проверка дали потребителят е логнат
   isUserLoggedIn(): boolean {
-    return this.isLoggedInSubject.getValue();  // Връща текущото състояние на логнатия потребител
+    return this.isLoggedInSubject.getValue();
   }
 
-  // Обработка на грешки при логване, регистрация и логаут
   private handleAuthError(error: unknown): void {
     if (error instanceof Error) {
       throw new Error(error.message || 'Authentication failed');
